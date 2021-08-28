@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import EpisodeDetails from './EpisodeDetails'
 
 const ShowDetails = () => {
 
@@ -18,16 +17,14 @@ const ShowDetails = () => {
         fetch('https://api.tvmaze.com/shows/6771')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setShowDetails(data)
             })
     }, [])
-    
+
     useEffect(() => {
         fetch('https://api.tvmaze.com/shows/6771?embed=episodes')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setEpisodes(data._embedded.episodes)
             })
     }, [])
@@ -47,14 +44,53 @@ const ShowDetails = () => {
         setSeason3(!season3)
     }
 
+    let summary = showDetails.summary && showDetails.summary
+    let arrSummary = summary && summary.split(' ')
 
+    let arrSummaryFinal_p1 = arrSummary && arrSummary.map((word) => {
+        return (
+            word.includes('</p>') ?
+                word.replace('</p>', '')
+                :
+                word
+        )
+    })
+
+    let arrSummaryFinal_p2 = arrSummaryFinal_p1 && arrSummaryFinal_p1.map((word) => {
+        return (
+            word.includes('<p>') ?
+                word.replace('<p>', '')
+                :
+                word
+        )
+    })
+
+    let arrSummaryFinal_b = arrSummaryFinal_p2 && arrSummaryFinal_p2.map((word) => {
+        return (
+            word.includes('<b>') ?
+                word.replace('<b>', '')
+                :
+                word
+        )
+    })
+
+    let arrSummaryFinal = arrSummaryFinal_b && arrSummaryFinal_b.map((word) => {
+        return (
+            word.includes('</b>') ?
+                word.replace('</b>', '')
+                :
+                word
+        )
+    })
+
+
+    let arrSummaryFinalString = arrSummaryFinal && arrSummaryFinal.join(' ')
+
+    console.log(arrSummaryFinal)
     return (
         <div>
-            <EpisodeDetails
-                episodes={episodes}
-            />
-            <div>{showDetails.name}</div>
-            <div>{`${showDetails.summary}`}</div>
+            <div>{showDetails.name && showDetails.name}</div>
+            <div>{arrSummaryFinalString && arrSummaryFinalString}</div>
             <button onClick={event => handleClickSeason1(event)}>Season 1</button>
             {season1 &&
                 episodes.map((episode) => {
@@ -62,7 +98,9 @@ const ShowDetails = () => {
                         <div>
                             {episode.season && episode.season === 1 &&
                                 <Link to={`/episodes/${episode.id}`}>
-                                    {episode.number} {episode.name}
+                                    {episode.number}
+                                    {episode.name}
+                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
                                 </Link>}
                         </div>
                     )
@@ -74,7 +112,9 @@ const ShowDetails = () => {
                         <div>
                             {episode.season && episode.season === 2 &&
                                 <Link to={`/episodes/${episode.id}`}>
-                                    {episode.number}  {episode.name}
+                                    {episode.number}
+                                    {episode.name}
+                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
                                 </Link>}
                         </div>
                     )
@@ -86,13 +126,14 @@ const ShowDetails = () => {
                         <div>
                             {episode.season && episode.season === 3 &&
                                 <Link to={`episodes/${episode.id}`}>
-                                    {episode.number} {episode.name}
+                                    {episode.number}
+                                    {episode.name}
+                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
                                 </Link>
                             }
                         </div>
                     )
                 })}
-
         </div >
     )
 }

@@ -1,39 +1,59 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const EpisodeDetails = () => {
-
-    //As there isn't an API that accepts episode ID as parameter
-    //providing its details I decided to fetch into the state the Powerpuff Girls
-    //show information in order to extract the necessary episode information
-    //The solution adapted is however more expensive in terms of performance
 
     const [episodesDetails, setEpisodesDetails] = useState([])
 
     let { id } = useParams()
 
-    let idNum = parseInt(id)
-
     useEffect(() => {
-        fetch('https://api.tvmaze.com/shows/6771?embed=episodes')
+        fetch(`https://api.tvmaze.com/episodes/${id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data._embedded.episodes)
-                setEpisodesDetails(data._embedded.episodes)
+                console.log(data)
+                setEpisodesDetails(data)
             })
     }, [])
 
-    console.log(idNum, typeof idNum)
+    let episodeSummary = episodesDetails.summary
+
+    let arrEpisodeSummary = episodeSummary && episodeSummary.split(' ')
+
+    let arrEpisodeSummaryFinal_p = arrEpisodeSummary && arrEpisodeSummary.map((word) => {
+        return (
+            word.includes('</p>') ?
+                word.replace('</p>', '')
+                :
+                word
+        )
+    })
+
+    let arrEpisodeSummaryFinal = arrEpisodeSummaryFinal_p && arrEpisodeSummaryFinal_p.map((word) => {
+        return (
+            word.includes('<p>') ?
+                word.replace('<p>', '')
+                :
+                word
+        )
+    })
+
+    let arrEpisodeSummaryFinalArray = arrEpisodeSummaryFinal && arrEpisodeSummaryFinal.join(' ')
+
+
     return (
         <div>
-            {episodesDetails.filter((episode) => {
-                return (episode.id &&
-                    episode.id === idNum &&
-                    <div>{episode.name}</div>
-                )
-            })}
-
+            <Link to='/main'>
+                Powerfull Girls
+            </Link>
+            <div>{episodesDetails.name && episodesDetails.name}</div>
+            <div>{arrEpisodeSummaryFinalArray && arrEpisodeSummaryFinalArray}</div>
+            <div>{episodesDetails.season && episodesDetails.season}</div>
+            <div>{episodesDetails.number && episodesDetails.number}</div>
+            <a rel='noreferrer' target='_blank' href={episodesDetails.url && episodesDetails.url}>Click here to access the episode webpage</a>
+            <img alt={episodesDetails.name && `Powerpuff episode ${episodesDetails.name}`} src={episodesDetails.image && episodesDetails.image.medium} />
         </div>
     )
 }
