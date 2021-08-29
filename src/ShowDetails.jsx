@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import ArrowDown from './Support/Images/ButtonArrowDown.png'
+import ArrowUp from './Support/Images/ButtonArrowUp.png'
+
 
 const ShowDetails = () => {
 
@@ -86,56 +89,172 @@ const ShowDetails = () => {
 
     let arrSummaryFinalString = arrSummaryFinal && arrSummaryFinal.join(' ')
 
-    console.log(arrSummaryFinal)
+    console.log(episodes)
+
     return (
-        <div>
-            <div>{showDetails.name && showDetails.name}</div>
-            <div>{arrSummaryFinalString && arrSummaryFinalString}</div>
-            <button onClick={event => handleClickSeason1(event)}>Season 1</button>
-            {season1 &&
-                episodes.map((episode) => {
-                    return (
-                        <div>
-                            {episode.season && episode.season === 1 &&
-                                <Link to={`/episodes/${episode.id}`}>
-                                    {episode.number}
-                                    {episode.name}
-                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
-                                </Link>}
-                        </div>
-                    )
-                })}
-            <button onClick={event => handleClickSeason2(event)}>Season 2</button>
-            {season2 &&
-                episodes.map((episode) => {
-                    return (
-                        <div>
-                            {episode.season && episode.season === 2 &&
-                                <Link to={`/episodes/${episode.id}`}>
-                                    {episode.number}
-                                    {episode.name}
-                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
-                                </Link>}
-                        </div>
-                    )
-                })}
-            <button onClick={event => handleClickSeason3(event)}>Season 3</button>
-            {season3 &&
-                episodes.map((episode) => {
-                    return (
-                        <div>
-                            {episode.season && episode.season === 3 &&
-                                <Link to={`episodes/${episode.id}`}>
-                                    {episode.number}
-                                    {episode.name}
-                                    <img alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />
-                                </Link>
-                            }
-                        </div>
-                    )
-                })}
-        </div >
+        <ShowPage>
+            <Description>{arrSummaryFinalString && arrSummaryFinalString}</Description>
+            <EpisodesArea >
+                <Button onClick={event => handleClickSeason1(event)}>
+                    <ButtonMessage>Season 1</ButtonMessage>
+                    <ArrowBox>
+                        {<Arrow src={season1 ? ArrowUp : ArrowDown} />}
+                    </ArrowBox>
+                </Button>
+                {season1 &&
+                    episodes.map((episode) => {
+                        return (
+                            <div>
+                                {episode.season && episode.season === 1 &&
+                                    <Episodes>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'> {episode.name}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>
+                                            {episode.image && <Image alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />}
+                                        </EpisodeElement>
+                                    </Episodes>
+                                }
+                            </div>
+                        )
+                    })}
+                <Button onClick={event => handleClickSeason2(event)}>
+                    <ButtonMessage>Season 2</ButtonMessage>
+                    <ArrowBox>
+                        {<Arrow src={season2 ? ArrowUp : ArrowDown} />}
+                    </ArrowBox>
+                </Button>
+                {season2 &&
+                    episodes.map((episode) => {
+                        return (
+                            <div>
+                                {episode.season && episode.season === 2 &&
+                                    <Episodes>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'> {episode.name}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>
+                                            {episode.image && <Image alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />}
+                                        </EpisodeElement>
+                                    </Episodes>
+                                }
+                            </div>
+                        )
+                    })}
+
+                <Button onClick={event => handleClickSeason3(event)}>
+                    <ButtonMessage>Season 3</ButtonMessage>
+                    <ArrowBox>
+                        {<Arrow src={season3 ? ArrowUp : ArrowDown} />}
+                    </ArrowBox>
+                </Button>
+                {season3 &&
+                    episodes.map((episode) => {
+                        return (
+                            <div>
+                                {episode.season && episode.season === 3 &&
+                                    <Episodes>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'> {episode.name}</EpisodeElement>
+                                        <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>
+                                            {episode.image && <Image alt={`Powerpuff episode ${episode.name}`} src={episode.image && episode.image.medium} />}
+                                        </EpisodeElement>
+                                    </Episodes>
+                                }
+                            </div>
+                        )
+                    })}
+
+            </EpisodesArea>
+        </ShowPage >
     )
 }
+
+const ShowPage = styled.div`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top:20px;
+            padding-left:30px;
+            padding-right: 30px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size:17px;
+            `
+const Description = styled.p`
+            padding-bottom:30px;
+            line-height: 1.7;
+            font-size: 17px;
+            text-align:justify;
+            text-justify: inter-word;
+            margin-top: 0;            
+`
+const EpisodesArea = styled.div`
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+            margin-left: 30px;
+            margin-right: 30px;
+            text-decoration: none;
+            width: 100%;
+            `
+
+const Episodes = styled.a`
+            display: flex;
+            flex-direction: column;
+            width: 450px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-decoration: none;
+            `
+
+const Image = styled.img`
+            border-radius:10px;
+            width: 90%;
+            `
+
+const EpisodeElement = styled.a`
+            text-decoration: none!important;
+            color:#fc7f94;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 16.5px;
+            margin-bottom: 5px;
+`
+
+const Button = styled.button`
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height:40px;
+            border-radius: 5px;
+            background-color: white;
+            border-width: 0.5px;
+            border-color: rgb(200,200,200);
+            box-shadow:0px 0px white;
+            margin-bottom: 25px;
+            padding-top:5px;
+`
+const ButtonMessage = styled.div`
+            width: 50%;
+            text-align:end;
+            padding-top: 2px;
+            font-size: 20px;
+            color:#383737;
+            font-family: 'arial narrow';
+`
+
+const ArrowBox = styled.div`
+            width: 50%;
+            height: 85%;
+            text-align:end;
+            padding-right: 15px;
+            padding-top: 2px;
+`
+
+const Arrow = styled.img`
+            align-items:flex-end;
+            height: 100%;
+`
+
+
 
 export default ShowDetails
