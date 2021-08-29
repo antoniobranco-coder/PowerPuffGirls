@@ -257,4 +257,5 @@ const Arrow = styled.img`
 
 
 
+
 export default ShowDetails
