@@ -8,6 +8,8 @@ const EpisodeDetails = () => {
 
     let { id } = useParams()
 
+//using the id parameter in the URL, which links to a unique episode, 
+//the following fetch retrieves the information about each individual episode 
     useEffect(() => {
         fetch(`https://api.tvmaze.com/episodes/${id}`)
             .then(response => response.json())
@@ -15,6 +17,10 @@ const EpisodeDetails = () => {
                 setEpisodesDetails(data)
             });
     }, [])
+
+    //This section is dedicated to eliminate the following html tags embeded in the summary string:
+    //<p>,</p>,<b> and </b>
+
 
     let episodeSummary = episodesDetails.summary;
 

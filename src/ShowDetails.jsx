@@ -15,6 +15,8 @@ const ShowDetails = () => {
     //I only considered show id 6771 as there is data collision between 
     //the shows id's returned in terms of episodes
 
+    //this fetch will set the showDetails state with all the info about the show Powerpuff Girls 
+   //retrieved from the URL fetch('https://api.tvmaze.com/shows/6771')
     useEffect(() => {
         fetch('https://api.tvmaze.com/shows/6771')
             .then(response => response.json())
@@ -22,6 +24,9 @@ const ShowDetails = () => {
                 setShowDetails(data)
             });
     }, []);
+
+    //this fetch will set the episodes state with an array with all the info about all the episodes of
+    //Powerpuff Girls. Each array is known to correspond to an episode
 
     useEffect(() => {
         fetch('https://api.tvmaze.com/shows/6771?embed=episodes')
@@ -45,6 +50,9 @@ const ShowDetails = () => {
         event.preventDefault();
         setSeason3(!season3);
     };
+
+    //This section is dedicated to eliminate the following html tags embeded in the summary string:
+    //<p>,</p>,<b> and </b>
 
     let summary = showDetails.summary && showDetails.summary;
     let arrSummary = summary && summary.split(' ');
@@ -91,6 +99,9 @@ const ShowDetails = () => {
         <ShowPage>
             <Description>{arrSummaryFinalString && arrSummaryFinalString}</Description>
             <EpisodesArea >
+                {/* This area is dedicated to put together all the season 1 episodes along with its information in a card
+                The episodes get visible after pressing the 'Season 1' button
+                */}
                 <Button onClick={event => handleClickSeason1(event)}>
                     <ButtonMessage>Season 1</ButtonMessage>
                     <ArrowBox>
@@ -119,6 +130,10 @@ const ShowDetails = () => {
                         {<Arrow src={season2 ? ArrowUp : ArrowDown} />}
                     </ArrowBox>
                 </Button>
+                {/* This area is dedicated to put together all the season 2 episodes along with its information in a card
+                The episodes get visible after pressing the 'Season 2' button
+                */}
+
                 {season2 &&
                     episodes.map((episode) => {
                         return (
@@ -141,6 +156,10 @@ const ShowDetails = () => {
                         {<Arrow src={season3 ? ArrowUp : ArrowDown} />}
                     </ArrowBox>
                 </Button>
+                {/* This area is dedicated to put together all the season 3 episodes along with its information in a card
+                The episodes get visible after pressing the 'Season 3' button
+                */}
+
                 {season3 &&
                     episodes.map((episode) => {
                         return (
@@ -162,6 +181,9 @@ const ShowDetails = () => {
         </ShowPage >
     )
 }
+
+// Since flexbox model makes the webpage totally responsive, altough required I did't use any breakpoint 
+//when styling this component
 
 const ShowPage = styled.div`
             display: flex;
