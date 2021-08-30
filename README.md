@@ -11,4 +11,3 @@ NOTES:
 2. I had little time to go over this exercice. As I'm not totally proficient in TypeScript
    I decided to use JS instead in order to optimize my time
 
-/Users/antoniobranco/Desktop/DigitalTraining/Hiring/power_puff_girls/PowerPuffGirls/README.md
