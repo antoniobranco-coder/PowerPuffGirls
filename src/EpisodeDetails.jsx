@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import styled from 'styled-components'
-
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const EpisodeDetails = () => {
 
-    const [episodesDetails, setEpisodesDetails] = useState([])
+    const [episodesDetails, setEpisodesDetails] = useState([]);
 
     let { id } = useParams()
 
@@ -13,14 +12,13 @@ const EpisodeDetails = () => {
         fetch(`https://api.tvmaze.com/episodes/${id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 setEpisodesDetails(data)
-            })
+            });
     }, [])
 
-    let episodeSummary = episodesDetails.summary
+    let episodeSummary = episodesDetails.summary;
 
-    let arrEpisodeSummary = episodeSummary && episodeSummary.split(' ')
+    let arrEpisodeSummary = episodeSummary && episodeSummary.split(' ');
 
     let arrEpisodeSummaryFinal_p = arrEpisodeSummary && arrEpisodeSummary.map((word) => {
         return (
@@ -28,8 +26,8 @@ const EpisodeDetails = () => {
                 word.replace('</p>', '')
                 :
                 word
-        )
-    })
+        );
+    });
 
     let arrEpisodeSummaryFinal = arrEpisodeSummaryFinal_p && arrEpisodeSummaryFinal_p.map((word) => {
         return (
@@ -37,11 +35,10 @@ const EpisodeDetails = () => {
                 word.replace('<p>', '')
                 :
                 word
-        )
-    })
+        );
+    });
 
-    let arrEpisodeSummaryFinalArray = arrEpisodeSummaryFinal && arrEpisodeSummaryFinal.join(' ')
-
+    let arrEpisodeSummaryFinalArray = arrEpisodeSummaryFinal && arrEpisodeSummaryFinal.join(' ');
 
     return (
         <ShowDetails>
@@ -70,7 +67,6 @@ const ShowDetails = styled.div`
         flex-direction: column;
         padding-left:0px;
         padding-right:0px;
-
   }
 `
 const ColumnInfo = styled.div`
@@ -121,4 +117,4 @@ const EpisodeLink = styled.a`
 }
 `
 
-export default EpisodeDetails
+export default EpisodeDetails;
