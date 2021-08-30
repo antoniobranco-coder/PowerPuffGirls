@@ -1,16 +1,15 @@
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import ArrowDown from './Support/Images/ButtonArrowDown.png'
-import ArrowUp from './Support/Images/ButtonArrowUp.png'
-
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import ArrowDown from './Support/Images/ButtonArrowDown.png';
+import ArrowUp from './Support/Images/ButtonArrowUp.png';
 
 const ShowDetails = () => {
 
-    const [showDetails, setShowDetails] = useState({})
-    const [episodes, setEpisodes] = useState([])
-    const [season1, setSeason1] = useState(false)
-    const [season2, setSeason2] = useState(false)
-    const [season3, setSeason3] = useState(false)
+    const [showDetails, setShowDetails] = useState({});
+    const [episodes, setEpisodes] = useState([]);
+    const [season1, setSeason1] = useState(false);
+    const [season2, setSeason2] = useState(false);
+    const [season3, setSeason3] = useState(false);
 
     //Altough there is more than one show id returned when searching 
     //I only considered show id 6771 as there is data collision between 
@@ -21,34 +20,34 @@ const ShowDetails = () => {
             .then(response => response.json())
             .then(data => {
                 setShowDetails(data)
-            })
-    }, [])
+            });
+    }, []);
 
     useEffect(() => {
         fetch('https://api.tvmaze.com/shows/6771?embed=episodes')
             .then(response => response.json())
             .then(data => {
                 setEpisodes(data._embedded.episodes)
-            })
-    }, [])
+            });
+    }, []);
 
     const handleClickSeason1 = (event) => {
-        event.preventDefault()
-        setSeason1(!season1)
-    }
+        event.preventDefault();
+        setSeason1(!season1);
+    };
 
     const handleClickSeason2 = (event) => {
-        event.preventDefault()
-        setSeason2(!season2)
-    }
+        event.preventDefault();
+        setSeason2(!season2);
+    };
 
     const handleClickSeason3 = (event) => {
-        event.preventDefault()
-        setSeason3(!season3)
-    }
+        event.preventDefault();
+        setSeason3(!season3);
+    };
 
-    let summary = showDetails.summary && showDetails.summary
-    let arrSummary = summary && summary.split(' ')
+    let summary = showDetails.summary && showDetails.summary;
+    let arrSummary = summary && summary.split(' ');
 
     let arrSummaryFinal_p1 = arrSummary && arrSummary.map((word) => {
         return (
@@ -56,8 +55,8 @@ const ShowDetails = () => {
                 word.replace('</p>', '')
                 :
                 word
-        )
-    })
+        );
+    });
 
     let arrSummaryFinal_p2 = arrSummaryFinal_p1 && arrSummaryFinal_p1.map((word) => {
         return (
@@ -65,7 +64,7 @@ const ShowDetails = () => {
                 word.replace('<p>', '')
                 :
                 word
-        )
+        );
     })
 
     let arrSummaryFinal_b = arrSummaryFinal_p2 && arrSummaryFinal_p2.map((word) => {
@@ -74,8 +73,8 @@ const ShowDetails = () => {
                 word.replace('<b>', '')
                 :
                 word
-        )
-    })
+        );
+    });
 
     let arrSummaryFinal = arrSummaryFinal_b && arrSummaryFinal_b.map((word) => {
         return (
@@ -83,13 +82,10 @@ const ShowDetails = () => {
                 word.replace('</b>', '')
                 :
                 word
-        )
-    })
+        );
+    });
 
-
-    let arrSummaryFinalString = arrSummaryFinal && arrSummaryFinal.join(' ')
-
-    console.log(episodes)
+    let arrSummaryFinalString = arrSummaryFinal && arrSummaryFinal.join(' ');
 
     return (
         <ShowPage>
@@ -115,7 +111,7 @@ const ShowDetails = () => {
                                     </Episodes>
                                 }
                             </div>
-                        )
+                        );
                     })}
                 <Button onClick={event => handleClickSeason2(event)}>
                     <ButtonMessage>Season 2</ButtonMessage>
@@ -137,9 +133,8 @@ const ShowDetails = () => {
                                     </Episodes>
                                 }
                             </div>
-                        )
+                        );
                     })}
-
                 <Button onClick={event => handleClickSeason3(event)}>
                     <ButtonMessage>Season 3</ButtonMessage>
                     <ArrowBox>
@@ -160,7 +155,7 @@ const ShowDetails = () => {
                                     </Episodes>
                                 }
                             </div>
-                        )
+                        );
                     })}
 
             </EpisodesArea>
@@ -255,7 +250,4 @@ const Arrow = styled.img`
             height: 100%;
 `
 
-
-
-
-export default ShowDetails
+export default ShowDetails;
