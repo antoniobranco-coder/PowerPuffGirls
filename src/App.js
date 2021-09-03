@@ -2,6 +2,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
+  Redirect
 } from 'react-router-dom';
 import styled from 'styled-components';
 import ShowDetails from "./ShowDetails";
@@ -15,6 +16,9 @@ function App() {
         <Switch>
           <Route path='/episodes/:id'>
             <EpisodeDetails />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/main" />
           </Route>
           <Route exact path='/main'>
             <ShowDetails />

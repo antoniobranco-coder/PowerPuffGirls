@@ -34,7 +34,7 @@ const ShowDetails = () => {
             .then(data => {
                 setEpisodes(data._embedded.episodes)
             });
-    }, []);
+    }, [episodes]);
 
     const handleClickSeason1 = (event) => {
         event.preventDefault();
@@ -111,7 +111,7 @@ const ShowDetails = () => {
                 {season1 &&
                     episodes.map((episode) => {
                         return (
-                            <div>
+                            <div key={episode.id}>
                                 {episode.season && episode.season === 1 &&
                                     <Episodes>
                                         <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
@@ -137,7 +137,7 @@ const ShowDetails = () => {
                 {season2 &&
                     episodes.map((episode) => {
                         return (
-                            <div>
+                            <div key={episode.id}>
                                 {episode.season && episode.season === 2 &&
                                     <Episodes>
                                         <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
@@ -161,9 +161,9 @@ const ShowDetails = () => {
                 */}
 
                 {season3 &&
-                    episodes.map((episode) => {
+                    episodes.map((episode, key) => {
                         return (
-                            <div>
+                            <div key={episode.id}>
                                 {episode.season && episode.season === 3 &&
                                     <Episodes>
                                         <EpisodeElement href={`/episodes/${episode.id}`} target='_blank'>Season {episode.season}  Episode {episode.number}</EpisodeElement>
